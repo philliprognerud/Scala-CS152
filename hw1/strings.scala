@@ -87,4 +87,39 @@ object strings extends App {
     println(mkSentence(5))
     println()
     
+    
+    //++++++++++++++++++++++++
+    //problem 8 && 9
+    def eval(str: String) = {
+        try{
+            if(!str.contains("+")) throw new Exception("missing operator")
+            else if(!checkLetter(str)) throw new Exception("NumberFormatException")
+            else {
+                var newStr = str.replaceAll("\\s", "")
+                val num1 = newStr.substring(0, newStr.indexOf("+"))
+                val num2 = newStr.substring(newStr.indexOf("+")+1, newStr.length())
+                num1.toDouble + num2.toDouble
+            }
+        } catch {
+            case e: Exception => e
+        }
+    }
+    
+    def checkLetter(str: String) = {
+        var noLetter = true
+        var i = 0
+        while(i != str.length()-1){
+            if(str(i).isLetter){
+                noLetter = false
+            }
+            i += 1
+        }
+        noLetter
+    }
+    
+    //tests
+    println(eval("2 * 4"))
+    println(eval("21ds + 43"))
+    println(eval("3 + 9"))
+    println(eval("  -6   +  8   "))
 }
