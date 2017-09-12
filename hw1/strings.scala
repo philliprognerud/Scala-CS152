@@ -1,3 +1,6 @@
+//add output comments under tests
+
+
 object strings extends App {
     //++++++++++++++++++++++++
     //problem 1
@@ -25,9 +28,14 @@ object strings extends App {
     println(isPal("mOM    "))
     println()
     
+    //RESULTS
+    // true
+    // true
+    // true
+    
     //++++++++++++++++++++++++
     //problem 2
-    def filterString(str: String) = {
+    def isPal2(str: String) = {
         var input = str.replaceAll("""[\p{Punct}]""", "")
         input = input.replaceAll("\\s", "")
         input = input.toLowerCase
@@ -36,10 +44,15 @@ object strings extends App {
     
     
     //tests
-    println(filterString("   rac ,e car    "))
-    println(filterString("   25% # %52 !!! "))
-    println(filterString(".....mOM    "))
+    println(isPal2("   rac ,e car    "))
+    println(isPal2("   25% # %52 !!! "))
+    println(isPal2(".....mOM    "))
     println()
+    
+    //RESULTS
+    // true
+    // true
+    // true
     
     //++++++++++++++++++++++++
     //problem 4
@@ -59,6 +72,11 @@ object strings extends App {
     println(mkWord(20))
     println(mkWord(4))
     println()
+    
+    //RESULTS
+    // duqktoxc
+    // ulepcoktbfbzbxkhkexc
+    // ejsr
     
     //++++++++++++++++++++++++
     //problem 5
@@ -87,9 +105,14 @@ object strings extends App {
     println(mkSentence(5))
     println()
     
+    //RESULTS
+    // Duk j vr uxyuuf vmeefxq beimzqh vfxeytfrz pensivfu
+    // W cgxnymfr mrnrjhdd
+    // Szvqernk kbb  visiuo llpllor
+    
     
     //++++++++++++++++++++++++
-    //problem 8 && 9
+    //problem 8 
     def eval(str: String) = {
         try{
             if(!str.contains("+")) throw new Exception("missing operator")
@@ -122,4 +145,59 @@ object strings extends App {
     println(eval("21ds + 43"))
     println(eval("3 + 9"))
     println(eval("  -6   +  8   "))
+    println()
+    
+    //RESULTS
+    // java.lang.Exception: missing operator
+    // java.lang.Exception: NumberFormatException
+    // 12.0
+    // 2.0
+    
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //problem 9
+    def evalModified(str: String) = {
+        try{
+            if(!str.contains("*")) throw new Exception("missing operator")
+            else if(!checkLetter(str)) throw new Exception("NumberFormatException")
+            else {
+                if(str.contains("*")){
+                    var newStr = str.replaceAll("\\s", "")
+                    newStr = newStr.replaceAll("\\(", "")
+                    newStr = newStr.replaceAll("\\)", "")
+                    
+                    val v1 = newStr.substring(0, newStr.indexOf("*"))
+                    val v2 = newStr.substring(newStr.indexOf("*")+1, newStr.length())
+
+                    var arr1 = v1.split(",")
+                    var arr2 = v2.split(",")
+                    var result = 0
+                    
+                    for(i <- 0 to 2){
+                    	result += arr1(i).toInt * arr2(i).toInt
+                    }
+                    
+                    result
+                    
+                } else {
+                    var newStr = str.replaceAll("\\s", "")
+                    val num1 = newStr.substring(0, newStr.indexOf("+"))
+                    val num2 = newStr.substring(newStr.indexOf("+")+1, newStr.length())
+                    num1.toDouble + num2.toDouble
+                }
+            }
+        } catch {
+            case e: Exception => e
+        }
+    }    
+    
+    //tests
+    println(evalModified("(4, 12, 3) * (4,1,21)"))
+    println(evalModified("(2, 0, 2) * (2,2,0)"))  
+    println(evalModified("(1, 2, 3) * (4,5,6)"))  
+    println()
+    
+    //RESULTS
+    // 91.0
+    // 4.0
+    // 32.0
 }

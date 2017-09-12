@@ -18,7 +18,12 @@ object math extends App {
     println(solve(1, 0, -1))
     println()
     
-    //++++++++++++++++++++++++
+    //RESULTS
+    // Some((2.0,-1.0))
+    // None
+    // Some((1.0,-1.0))
+    
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //problem 2
     def dist(a: (Int, Int), b: (Int, Int)) = {
         Math.sqrt(Math.pow((b._1 - a._1), 2) + scala.math.pow((b._2 - a._2), 2))
@@ -35,7 +40,12 @@ object math extends App {
     println(dist((3, 3), (2, 5)))
     println()
     
-    //++++++++++++++++++++++++
+    //RESULTS
+    // 1.4142135623730951
+    // 3.0
+    // 2.23606797749979
+    
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //problem 3
     def dot(a: (Double, Double, Double), b: (Double, Double, Double)) = {
         val x = a._1 * b._1
@@ -50,7 +60,12 @@ object math extends App {
     println(dot((2.0, 0, 4.5), (0, 2.0, 2)))
     println()
     
-    //++++++++++++++++++++++++
+    //RESULTS
+    // 18.0
+    // 11.5
+    // 9.0
+    
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //problem 6
     def isPrime(value: Int) = {
         try{
@@ -77,7 +92,13 @@ object math extends App {
     println(isPrime(-2))
     println()
     
-    //++++++++++++++++++++++++
+    //RESULTS
+    // true
+    // true
+    // false
+    // exception caught: java.lang.Exception
+    
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //problem 7
     def phi(value: Int) = {
         var results = 1
@@ -98,8 +119,12 @@ object math extends App {
     println(phi(10))
     println()
     
+    //RESULTS
+    //6
+    //4
     
-    //++++++++++++++++++++++++
+    
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //problem 8
     def rollDice() = {
         val start = 1
@@ -123,5 +148,9 @@ object math extends App {
     println(rollDice())
     println(rollDice())
     
+    //RESULTS
+    // (6,2)
+    // (2,1)
+    // (4,4)
     
 }
