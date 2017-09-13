@@ -1,6 +1,6 @@
 object math extends App {
     
-    //++++++++++++++++++++++++
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //problem 1
     def solve(a: Double, b: Double, c: Double) = {
         val disc = b * b - 4 *a * c

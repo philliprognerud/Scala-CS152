@@ -1,6 +1,3 @@
-//add output comments under tests
-
-
 object strings extends App {
     //++++++++++++++++++++++++
     //problem 1
