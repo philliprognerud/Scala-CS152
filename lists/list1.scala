@@ -69,8 +69,12 @@ object list1 extends App {
     }
     
     //RECURSION
-    
-    //STIL NEED THIS ONE **********~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    def sumOfSumsRec(a: List[Int], b: List[Int]): Int = (a, b) match {
+        case (x :: xs, y :: ys) => (x + y) + sumOfSumsRec(xs, ys)
+        case (x :: xs, Nil) => x + sumOfSumsRec(xs, Nil)
+        case (Nil, y :: ys) => y + sumOfSumsRec(Nil, ys)
+        case _ => 0
+    }
     
     
     //TAIL RECURSIVE
@@ -97,6 +101,7 @@ object list1 extends App {
     
     //TEST CASES
     println(sumOfSumsIter(List(1, 2, 3), List(3, 2, 1)))
+    println(sumOfSumsRec(List(1, 2, 3), List(3, 2, 1)))
     println(sumOfSumsRecTail(List(1, 2, 3), List(3, 2, 1)))
     println(sumOfSumsReduce(List(1, 2, 3), List(3, 2, 1)))
     println()
@@ -131,15 +136,12 @@ object list1 extends App {
     //PROBLEM 6
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
-    import scala.reflect.ClassTag
-    
     //Predicate Function
     def isBool(i: Any) = i match {
         case _: Boolean => true
         case _    => false
     }
 
-    
     //ITERATIVE
     def countBoolIter[A](test: A=>Boolean, a: List[A]) = {
         var count = 0
@@ -150,17 +152,29 @@ object list1 extends App {
     }
     
     //RECURSIVE
+    def countBoolRec[A](test: A=>Boolean, a: List[A]): Int = a match {
+        case Nil => 0
+        case h :: t if(test(h)) => 1 + countBoolRec(test, t)
+        case h :: t => countBoolRec(test, t)
+    }
     
     //TAIL RECURSIVE
+    def countBoolTailRec[A](test: A=>Boolean, a: List[A], acc: Int = 0): Int = a match {
+        case Nil => acc
+        case h :: t if(test(h)) => countBoolTailRec(test, t, acc+1)
+        case h :: t => countBoolTailRec(test, t, acc)
+    }
+    
     
     //FILTER-MAP-REDUCE
     def countBoolFilter[A](test: A=>Boolean, a: List[A]) = a.filter(test(_)).size
         
     //TEST CASE
     println(countBoolIter(isBool, List(1, true, 3, true, false, "hi")))
-    // println(countBoolIter(List(1, true, 3, true, false, "hi")))
-    // println(countBoolIter(List(1, true, 3, true, false, "hi")))
+    println(countBoolRec(isBool, List(1, true, 3, true, false, "hi")))
+    println(countBoolTailRec(isBool, List(1, true, 3, true, false, "hi")))
     println(countBoolFilter(isBool, List(1, true, 3, true, false, "hi")))
+    println()
     
     //OUTPUT
     //3
@@ -172,53 +186,137 @@ object list1 extends App {
     //PROBLEM 7
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
+    
+    //ITERATIVE
+    def countAllBoolIter[A](test: A=>Boolean, a: List[A]) = {
+        var count = 0
+        for(elem <- a) if(test(elem)) count += 1
+        if(count != a.size) false
+        else true
+    }
+    
     //RECURSIVE
-    def all[T](test: T=> Boolean, vals: List[T]): Boolean =
-        if (vals == Nil) true
-        else test(vals.head) && all(test, vals.tail)
+    def countAllBoolRec[A](test: A=> Boolean, a: List[A]): Boolean = a match {
+        case Nil => true
+        case h :: t if(test(h)) => val foo = countAllBoolTailRec(test, t); foo
+        case _ => false
+    }
+        
+    //TAIL RACURSIVE
+    def countAllBoolTailRec[A](test: A=>Boolean, a: List[A]): Boolean = a match {
+        case Nil => true
+        case h :: t if(test(h)) => countAllBoolTailRec(test, t)
+        case _ => false
+    }
+    
+    //FILTER-MAP-REDUCE
+    def countAllBoolFilter[A](test: A=>Boolean, a: List[A]) = {
+        if(a.filter(test(_)).size == a.size) true
+        else false
+    }
         
         
+    //TEST CASES    
+    println(countAllBoolIter(isBool, List(true, true, false, false)))
+    println(countAllBoolRec(isBool, List(true, true, false, false)))
+    println(countAllBoolTailRec(isBool, List(true, true, false, false)))
+    println(countAllBoolFilter(isBool, List(true, true, false, false)))
+    println()
+    
+    
+    // OUTPUT
+    // true
+    // true
+    // true
+    // true
         
+           
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //PROBLEM 8
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         
-        
-        
-        
-    // def isPal(s: String) = s == s.reverse
+    //ITERATIVE
+    def anyBoolIter[A](test: A=>Boolean, a: List[A]) = {
+        var any = false
+        for(x <- a if !any) any = test(x) //short circuit execution
+        any
+    }
     
-    // all(isPal _, List("mom", "rotator", "dad"))
+    //RECURSIVE
+    def anyBoolRec[A](test: A=> Boolean, a: List[A]): Boolean = a match {
+        case Nil => false
+        case h :: t if(!test(h)) => val foo = anyBoolRec(test, t); foo
+        case _ => true
+    }
+    
+    //TAIL RECURSIVE
+    def anyBoolTailRec[A](test: A=> Boolean, a: List[A]): Boolean = a match {
+        case Nil => false
+        case h :: t if(!test(h)) => anyBoolTailRec(test, t)
+        case _ => true
+    }
+    
+    //FILTER-MAP-REDUCE
+    def anyBoolFilter[A](test: A=>Boolean, a: List[A]) = {
+        if(a.filter(test(_)).size > 0) true
+        else false
+    }
+    
+    //TEST CASES
+    println(anyBoolIter(isBool, List(1, 2, "hi", "test", false)))
+    println(anyBoolRec(isBool, List(1, 2, "hi", "test", false)))
+    println(anyBoolTailRec(isBool, List(1, 2, "hi", "test", false)))
+    println(anyBoolFilter(isBool, List(1, 2, "hi", "test", false)))
+    println()
     
     
     
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //PROBLEM 10
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
-    // def allIter[T](test: T=>Boolean, vals: List[T]) = {
-    //     var reuslt = true
-    //     for( v <- vals if result ) 
-    //         result = result && test(v)
-    //         //short circuit execution
-            
-    //     result
-    // }
+     
     
-    // isPrime(4)
-    
-    // allIter(isPrime _, List(2, 4, 5, 7, 11, 13, 17)))
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //PROBLEM 13
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
     
+    //An infinitely long stream of 1's
+    def infiniteOnes(n: Int = 1): Stream[Int] = n #:: infiniteOnes(n)
+    
+    //The stream of all non-negative integers
+    def makeInts(n: Int = 0): Stream[Int] = n #:: makeInts(n + 1)
+
+    
+    //The stream of all non-negative even integers
+    def makeEvenInts(n: Int = 0): Stream[Int] = n #:: makeEvenInts(n + 2)
+    
+    //The stream of all squares of integers
+    def intSquares(ints: Stream[Int]): Stream[Int] = ints.map{
+        case n: Int => n * n
+    }
     
     
-    // def makeNat(from: Int): Stream[Int] = from #:: makeNats(from + 1)
+    //TEST CASES
+    val ones = infiniteOnes().map(x => x)
+    println((ones.take(10)).toList)
     
-    // val nats = makeNats(0)
+    val ints = makeInts().map(x => x)
+    println((ints.take(10)).toList)
     
-    // nats(5)
+    val evenInts = makeEvenInts().map(x => x)
+    println((evenInts.take(10)).toList)
     
-    // nats
+    val squares = intSquares(ints).map(x => x)
+    println((squares.take(10)).toList)
     
-    // val primes = nats.filter(isPrime _)
-    
-    // primes(5)
-    
-    // val cube = primes.map((x: Int) => x * x * x)
+    //OUTPUT
+    // List(1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+    // List(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+    // List(0, 2, 4, 6, 8, 10, 12, 14, 16, 18)
+    // List(0, 1, 4, 9, 16, 25, 36, 49, 64, 81)
+
     
     
 }
