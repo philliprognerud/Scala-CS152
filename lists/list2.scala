@@ -59,6 +59,7 @@ object list2 extends App {
     
     //TEST CASE
     println(spellCheck(List("hi", "my", "name", "is", "phillip"), List("hi", "name", "is")))
+    println()
     
     //OUTPUT
     // List(phillip, my)
@@ -73,6 +74,7 @@ object list2 extends App {
 
     //TEST CASE
     println(spellCheckFilter(List("hi", "my", "name", "is", "phillip"), List("hi", "name", "is")))
+    println()
     
     //OUTPUT
     // List(my, phillip)
@@ -80,4 +82,19 @@ object list2 extends App {
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //PROBLEM 4
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+    def evalMono(mono: (Double, Double), x: Double): Double = mono._1 * Math.pow(x, mono._2)
+
+    def evalPoly(poly: List[(Double, Double)], x: Double): Double = {
+        poly(0)._1 * Math.pow(x, poly(0)._2) + poly(1)._1
+    }
+
+
+
+    //TEST CASE
+    println(evalMono((3.0, 2.0), 2))
+    println(evalPoly(List((3.0, 2.0), (-5.0, 0.0)), 2))
+    
+    //OUTPUT
+    // 12.0
 }
