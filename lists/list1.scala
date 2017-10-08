@@ -6,40 +6,42 @@ object list1 extends App {
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
     //ITERATIVE
-    def cubesIter(a1: List[Int]): List[Int] = {
+    def cubesIter(a1: List[Int]): Int = {
         var cubes = new ListBuffer[Int]()
         for (item <- a1 if item % 2 != 0) yield {
             cubes += Math.pow(item, 3).toInt
         }
         val cubesList = cubes.toList
-        cubesList
+        var sum = 0
+        for(x <- cubesList) sum += x
+        sum
     }
     
     //RECURSIVE
-    def cubesRecur(a: List[Int]): List[Int] = a match {
-      case Nil => List[Int]()
+    def cubesRecur(a: List[Int]): Int = a match {
+      case Nil => 0
       case h::t if (h%2 == 0) => cubesRecur(t)
-      case h::t => Math.pow(h,3).toInt :: cubesRecur(t)
+      case h::t => Math.pow(h,3).toInt + cubesRecur(t)
     }
     
     //TAIL RECURSIVE
-    def cubesTailRecur(a: List[Int], acc: List[Int] = List.empty): List[Int] = a match {
+    def cubesTailRecur(a: List[Int], acc: Int = 0): Int = a match {
         case Nil => acc
         case h :: t if (h%2 == 0) => cubesTailRecur(t, acc)
-        case h :: t  => cubesTailRecur(t, acc :+ Math.pow(h, 3).toInt)
+        case h :: t  => cubesTailRecur(t, acc + Math.pow(h, 3).toInt)
     }
     
     
     // FILTER-MAP-REDUCE
-    def cubesMap(a1: List[Int]): List[Int] = {
+    def cubesMap(a1: List[Int]): Int= {
         
         val isOdd = (x: Int) => x % 2 != 0
         val a1Filtered = a1.filter(isOdd)
         
         val cubeInt = (x:Int) => Math.pow(x, 3).toInt
         val cubes = a1Filtered.map(cubeInt)
-
-        cubes
+        
+        cubes.reduceLeft(_ + _)
     }
     
     // TEST CASES
@@ -49,11 +51,14 @@ object list1 extends App {
     println(cubesMap(List(1, 2, 3, 4, 5, 6, 7)))
     println()
     
-    // OUTPUT
+    // OUTPUT: 
+    // The sum of the cubes of odd numbers (1, 3) => (1, 27) => 1 + 27 = 28
     // List(1, 27, 125, 343)
-    // List(1, 27, 125, 343)
-    // List(1, 27, 125, 343)
-    // List(1, 27, 125, 343)
+    
+    // 496
+    // 496
+    // 496
+    // 496
 
 
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -269,12 +274,33 @@ object list1 extends App {
     println(anyBoolFilter(isBool, List(1, 2, "hi", "test", false)))
     println()
     
-    
+    // OUTPUT
+    // true
+    // true
+    // true
+    // true
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //PROBLEM 10
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
+    def isIntSorted(a: List[Int]):Boolean = a.sameElements(a.sorted)
+    def isStringSorted(a: List[String]):Boolean = a.sameElements(a.sorted)
+    
+
+    //TEST CASES    
+    println(isIntSorted(List(1,3,2,5,8,0)))
+    println(isIntSorted(List(1,2,3,4,5)))
+    println(isStringSorted(List("a", "b", "c")))
+    println(isStringSorted(List("a", "c", "b")))
+    println()
+    
+    
+    // OUTPUT
+    // false
+    // true
+    // true
+    // false
      
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
