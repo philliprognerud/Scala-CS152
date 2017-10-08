@@ -97,4 +97,5 @@ object list2 extends App {
     
     //OUTPUT
     // 12.0
+    // 7.0
 }
