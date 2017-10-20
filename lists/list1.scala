@@ -285,7 +285,6 @@ object list1 extends App {
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
     def isIntSorted(a: List[Int]):Boolean = a.sameElements(a.sorted)
-    def isStringSorted(a: List[String]):Boolean = a.sameElements(a.sorted)
     
 
     //TEST CASES    
